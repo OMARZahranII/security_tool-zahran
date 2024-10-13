@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 import jwt
 from datetime import datetime, timedelta
 from fastapi import HTTPException, Depends
@@ -44,3 +45,32 @@ def refresh_access_token(refresh_token: str):
         raise HTTPException(status_code=401, detail="Invalid refresh token")
     new_token = create_token({"sub": refresh_tokens[refresh_token]})
     return {"access_token": new_token, "token_type": "bearer"}
+=======
+from fastapi import HTTPException, Depends
+from fastapi.security import OAuth2PasswordBearer
+
+# Role management
+users_roles = {
+    "admin": {"permissions": ["view_reports", "manage_users", "trigger_scans"]},
+    "user": {"permissions": ["view_reports", "trigger_scans"]},
+    "auditor": {"permissions": ["view_reports"]}
+}
+
+def get_current_user_role(token: str = Depends(oauth2_scheme)):
+    '''Fetch the current user's role.'''
+    user = verify_token(token)
+    return user['role']
+
+def check_permissions(token: str, required_permission: str):
+    '''Check if the user has the required permission.'''
+    user_role = get_current_user_role(token)
+    permissions = users_roles.get(user_role, {}).get('permissions', [])
+    if required_permission not in permissions:
+        raise HTTPException(status_code=403, detail="Permission denied")
+
+def admin_required(token: str = Depends(oauth2_scheme)):
+    '''Require admin role to access certain routes.'''
+    role = get_current_user_role(token)
+    if role != 'admin':
+        raise HTTPException(status_code=403, detail="Admin access required.")
+>>>>>>> d9428ef (push)
