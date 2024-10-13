@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  network_scanner:
+    build: ./services/network_scanner
+    ports:
+      - "8001:8001"
+  web_scanner:
+    build: ./services/web_scanner
+    ports:
+      - "8002:8002"
+  cloud_scanner:
+    build: ./services/cloud_scanner
+    ports:
+      - "8003:8003"
+  server_scanner:
+    build: ./services/server_scanner
+    ports:
+      - "8004:8004"
+  logging_service:
+    build: ./services/logging_service
+    ports:
+      - "9000:9000"
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: security_db
+    ports:
+      - "5432:5432"
+  gui:
+    build: ./gui
+    ports:
+      - "3000:3000"

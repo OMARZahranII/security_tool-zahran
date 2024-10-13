@@ -1,0 +1,13 @@
+scrape_configs:
+  - job_name: 'network_scanner'
+    static_configs:
+      - targets: ['network_scanner:8001']
+  - job_name: 'web_scanner'
+    static_configs:
+      - targets: ['web_scanner:8002']
+  - job_name: 'cloud_scanner'
+    static_configs:
+      - targets: ['cloud_scanner:8003']
+  - job_name: 'server_scanner'
+    static_configs:
+      - targets: ['server_scanner:8004']
