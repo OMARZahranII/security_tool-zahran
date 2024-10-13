@@ -1,0 +1,16 @@
+
+fastapi
+uvicorn
+pydantic
+boto3
+google-cloud
+azure-mgmt
+azure-identity
+passlib
+jwt
+requests
+matplotlib
+seaborn
+reportlab
+pytest
+slowapi
